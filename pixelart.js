@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * @description ClaudePackage pixel art toolbox (CLI).  Run `node pixelart.js help` for the commands.
+ * @description Pixelod Skill pixel art toolbox (CLI).  Run `node pixelart.js help` for the commands.
  *
  * The loop for good pixel art: build/draw -> render -> (look at the PNG) -> lint -> fix ... -> export.
  * @module
@@ -24,7 +24,7 @@ import { installSkill } from "./lib/skill.js";
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_DIR = process.env.PIXELART_DIR ? path.resolve(process.env.PIXELART_DIR) : path.join(HERE, "output");
 
-const USAGE = `ClaudePackage pixelart - pixel art toolbox
+const USAGE = `Pixelod Skill - pixel art toolbox
 
   node pixelart.js <command> [arguments] [options]        node pixelart.js help <command>
 

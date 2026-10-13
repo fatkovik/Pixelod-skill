@@ -1,6 +1,6 @@
 ---
 name: pixelart
-description: Create, convert, edit and animate pixel art (sprites, icons, characters, tiles, animation sprite sheets and GIFs) with the ClaudePackage pixelart CLI. Use when the user asks for pixel art, a sprite, an icon, a sprite sheet, an animated GIF, or to turn an image/photo into pixel art.
+description: Create, convert, edit and animate pixel art (sprites, icons, characters, tiles, animation sprite sheets and GIFs) with the Pixelod Skill CLI (pixelart.js). Use when the user asks for pixel art, a sprite, an icon, a sprite sheet, an animated GIF, or to turn an image/photo into pixel art.
 argument-hint: <what to make | image path + options | "edit <name>: change ..." | "set iterations to N">
 ---
 

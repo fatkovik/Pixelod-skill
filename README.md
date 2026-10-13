@@ -1,4 +1,4 @@
-# ClaudePackage — pixel art toolbox for the command line and Claude Code
+# Pixelod Skill — pixel art for the command line and Claude Code
 
 Create, convert, edit and animate pixel art from a terminal, or just ask Claude for it with `/pixelart`.
 
@@ -7,9 +7,11 @@ Create, convert, edit and animate pixel art from a terminal, or just ask Claude 
 - **Animate** with frames, layers, onion skinning and named animation tags.
 - **Look and check**: zoomed previews with a pixel grid and coordinate rulers, frame strips, and a quality linter.
 - **Export** PNG, animated GIF, sprite sheets with engine-ready JSON, numbered frames, or DataPixels code.
-- **Claude Code skill** (`/pixelart`) that drives the tools in a draw → look → critique → fix loop.
+- **Claude Code skill** (`/pixelart`) that drives the tools in a draw → look → critique → fix loop, with a
+  configurable number of iterations.
 
-Final renders go through the same `DataPixels.js` class as the Data Pixels Playground in the parent repository.
+Final renders go through `DataPixels.js`, the same class used by the Data Pixels Playground in the
+[Pixelod](https://github.com/fatkovik/Pixelod) project.
 
 ```
 write script -> build (preview + lint) -> look -> fix script -> build ... -> export
@@ -26,10 +28,11 @@ write script -> build (preview + lint) -> look -> fix script -> build ... -> exp
 
 ## Installation
 
+Open a terminal in the Pixelod Skill folder (the one containing `pixelart.js`) and run:
+
 ```
-cd ClaudePackage
 npm install
-npm test            # optional: 21 tests, should all pass
+npm test            # optional: 22 tests, should all pass
 ```
 
 Check that it works:
@@ -44,25 +47,24 @@ The second command writes `output/knight.pixel.json`, `output/knight.preview.png
 ### Install the `/pixelart` skill
 
 The skill is a single `SKILL.md` file. The installer copies it into a project, or into your user folder for every
-project, and fills in the absolute path of this folder:
+project, and fills in the absolute path of the Pixelod Skill folder:
 
 ```
 node pixelart.js install-skill --dest <project folder>     # -> <project>/.claude/skills/pixelart/SKILL.md
 node pixelart.js install-skill --global                    # -> ~/.claude/skills/pixelart/SKILL.md
 ```
 
-It is already installed for this repository at `../.claude/skills/pixelart`. Start a new Claude Code session
-(or restart the current one) after installing so the skill is picked up.
+Start a new Claude Code session (or restart the current one) after installing so the skill is picked up.
 
-> The skill calls `pixelart.js` by absolute path. If you move or rename the `ClaudePackage` folder, run
-> `install-skill` again.
+> The installed skill calls `pixelart.js` by absolute path. If you move or rename the Pixelod Skill folder,
+> run `install-skill` again.
 
 ### Optional: a global `pixelart` command
 
 `package.json` declares a `pixelart` binary. To call it from anywhere:
 
 ```
-npm link            # in ClaudePackage
+npm link            # in the Pixelod Skill folder
 pixelart help
 ```
 
@@ -81,9 +83,9 @@ Open Claude Code in a project where the skill is installed and type `/pixelart` 
 ```
 
 Claude picks a size and palette, writes a `.pixelscript`, builds it, looks at the preview, fixes what it sees
-(usually two or three rounds), runs the linter and exports. You get the output paths at the end; the document
-and its script stay in `ClaudePackage/output` so you can ask for changes later. Asking in plain words
-("make me pixel art of a slime") also works, `/pixelart` just guarantees the skill is used.
+for the configured number of iterations, runs the linter and exports. You get the output paths at the end; the
+document and its script stay in the `output` folder so you can ask for changes later. Asking in plain words
+("make me pixel art of a slime") also works; `/pixelart` just guarantees the skill is used.
 
 Claude Code asks for permission before running `node .../pixelart.js` and before writing scripts; choose
 "always allow" for those to skip the prompts. More: [docs/skill.md](docs/skill.md).
@@ -95,7 +97,7 @@ fix, rebuild). By default (`auto`) that is at least 2, usually 3, stopping when 
 rounds give more polish and take longer; fewer are faster.
 
 ```
-node pixelart.js config iterations 5        # always do exactly 5 rounds
+node pixelart.js config iterations 5        # always do exactly 5 rounds (1-20)
 node pixelart.js config iterations 1        # quick drafts
 node pixelart.js config iterations auto     # back to the default
 node pixelart.js config                     # show all settings
@@ -106,7 +108,7 @@ You can also change it from Claude Code (`/pixelart set iterations to 5`) or for
 
 ## Usage from the command line
 
-All commands are `node pixelart.js <command> ...`, run from the `ClaudePackage` folder.
+All commands are `node pixelart.js <command> ...`, run from the Pixelod Skill folder.
 
 ### Draw something
 
@@ -168,7 +170,7 @@ node pixelart.js export slime --format sheet --scale 4         # slime.sheet.png
 | `install-skill` | Install the `/pixelart` skill |
 | `help [ops\|<command>]` | Command help; `help ops` lists every drawing command |
 
-Documents are stored as `<name>.pixel.json` in `ClaudePackage/output`. Use `--dir <folder>` or the
+Documents are stored as `<name>.pixel.json` in the `output` folder. Use `--dir <folder>` or the
 `PIXELART_DIR` environment variable to keep them elsewhere, and `--out <folder>` to export somewhere else.
 
 ---
@@ -177,26 +179,25 @@ Documents are stored as `<name>.pixel.json` in `ClaudePackage/output`. Use `--di
 
 | Document | Contents |
 |---|---|
-| [docs/cli.md](docs/cli.md) | Every command and option, defaults, limits |
+| [docs/cli.md](docs/cli.md) | Every command and option, defaults, settings, limits |
 | [docs/scripting.md](docs/scripting.md) | The drawing script language: all commands, syntax and examples |
 | [docs/animation.md](docs/animation.md) | Frames, layers, tags, onion skin, GIF and sprite sheet export, engine import |
 | [docs/importing.md](docs/importing.md) | Turning photos and images into pixel art: options and tips |
 | [docs/documents.md](docs/documents.md) | The `.pixel.json` file format |
-| [docs/skill.md](docs/skill.md) | How the `/pixelart` skill works, installing and customizing it |
-| [docs/development.md](docs/development.md) | Architecture, tests, adding commands |
+| [docs/skill.md](docs/skill.md) | How the `/pixelart` skill works: installing, iterations, customizing |
+| [docs/development.md](docs/development.md) | Architecture, tests, adding commands and settings |
 
 ## Folder layout
 
 ```
-ClaudePackage/
-  pixelart.js          CLI entry point
-  lib/                 engine: document model, script engine, renderer, importer, linter, palettes
-  skill/pixelart/      source of the /pixelart skill (installed copies are generated from it)
-  examples/            knight.pixelscript, slime.pixelscript
-  docs/                documentation
-  test/                node:test suite
-  output/              default folder for documents, previews and exports
-  pixelart.config.json your settings (created by `config` only when you change something)
+pixelart.js            CLI entry point
+lib/                   engine: document model, script engine, renderer, importer, linter, palettes, settings
+skill/pixelart/        source of the /pixelart skill (installed copies are generated from it)
+examples/              knight.pixelscript, slime.pixelscript
+docs/                  documentation
+test/                  node:test suite
+output/                default folder for documents, previews and exports (git-ignored)
+pixelart.config.json   your settings, created by `config` only when you change something (git-ignored)
 ```
 
 ## Troubleshooting
@@ -204,12 +205,13 @@ ClaudePackage/
 | Problem | Fix |
 |---|---|
 | `/pixelart` is not offered in Claude Code | Install the skill for that project (or `--global`), then start a new session |
-| The skill runs but `node` cannot find `pixelart.js` | The folder moved: run `node pixelart.js install-skill ...` again |
-| `Cannot find module '@napi-rs/canvas'` | Run `npm install` inside `ClaudePackage` |
-| `Document not found: ...output\name.pixel.json` | Check the name with `dir output`, or pass the full path to the `.pixel.json` |
+| The skill runs but `node` cannot find `pixelart.js` | The Pixelod Skill folder moved or was renamed: run `node pixelart.js install-skill ...` again |
+| `Cannot find module '@napi-rs/canvas'` | Run `npm install` in the Pixelod Skill folder |
+| `Document not found: ...output\name.pixel.json` | Check the name with `dir output` (`ls output`), or pass the full path to the `.pixel.json` |
 | `... already exists (use --force ...)` | Commands never overwrite your work silently; add `--force` or choose another `--name` |
 | `Line N "...": ...` | A script error; the message names the line (and row/column inside `put` blocks) |
 | A converted photo looks muddy | Use fewer colors (`--colors 8-16`) or a preset palette, a smaller `--grid`, then clean up by hand |
+| Claude stops too early or takes too long | Set the number of rounds: `node pixelart.js config iterations <1-20|auto>` |
 
 ## Credits and license
 

@@ -87,7 +87,7 @@ Writes `<name>.sheet.png` (frames left to right, top to bottom; default one row,
     }
   ],
   "meta": {
-    "app": "ClaudePackage pixelart",
+    "app": "Pixelod Skill",
     "image": "knight.sheet.png",
     "format": "RGBA8888",
     "size": { "w": 128, "h": 32 },

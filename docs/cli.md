@@ -17,7 +17,7 @@ Every command prints the paths of the files it wrote. Errors start with `Error:`
 - a path to a `.pixel.json` file anywhere.
 
 **Working folder** for documents, in priority order: `--dir <folder>`, the `PIXELART_DIR` environment variable,
-or `ClaudePackage/output`. Exports go next to the document unless `--out <folder>` is given.
+or the `output` folder next to `pixelart.js`. Exports go next to the document unless `--out <folder>` is given.
 
 **Overwriting**: `new`, `import` and `convert` refuse to replace an existing document without `--force`.
 `build` replaces a document only if it was built from the same script (or with `--force`).
@@ -222,7 +222,7 @@ path (yellow shadows go through orange, not green), highlights toward warm yello
 
 ## config
 
-Show or change settings. Settings are stored in `ClaudePackage/pixelart.config.json`, or in the file named by the
+Show or change settings. Settings are stored in `pixelart.config.json` in the Pixelod Skill folder, or in the file named by the
 `PIXELART_CONFIG` environment variable. The file only holds values that differ from the defaults; it is deleted
 when everything is back to default.
 
@@ -238,7 +238,7 @@ node pixelart.js config reset                   # restore all settings
 |---|---|---|---|
 | `iterations` | `auto` | `auto`, or `1`…`20` | Critique-and-fix rounds the `/pixelart` skill does after the first build. `auto`: at least 2, usually 3, stopping when no concrete problems are left. A number: exactly that many rounds |
 
-Settings are shared by every project that uses this `ClaudePackage` folder (also with a global skill install).
+Settings are shared by every project that uses this Pixelod Skill folder (also with a global skill install).
 The CLI commands themselves do not change behavior with `iterations`; it is read by the skill
 (see [skill.md](skill.md#iterations)).
 

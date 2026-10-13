@@ -14,9 +14,9 @@ node pixelart.js install-skill --global                    # every project, in ~
 The installer copies `SKILL.md` and replaces two placeholders:
 
 - `{{CLI}}` → the absolute path of `pixelart.js`
-- `{{OUTPUT}}` → the absolute path of `ClaudePackage/output`
+- `{{OUTPUT}}` → the absolute path of the `output` folder
 
-So the installed skill works from any project, as long as `ClaudePackage` stays where it was installed from.
+So the installed skill works from any project, as long as the Pixelod Skill folder stays where it was installed from.
 Re-run the installer after moving the folder or after changing `skill/pixelart/SKILL.md`.
 
 Start a new Claude Code session after installing. To remove the skill, delete the installed
@@ -41,7 +41,7 @@ Good requests say the subject, and optionally the size, palette or style, animat
 
 1. Reads the `iterations` setting (`node pixelart.js config iterations`).
 2. Decides the spec (size, palette, animation) without asking unless something is really ambiguous.
-3. Writes `ClaudePackage/output/<name>.pixelscript`.
+3. Writes `output/<name>.pixelscript` in the Pixelod Skill folder.
 4. Runs `build`, which writes the zoomed preview (grid and coordinate rulers), the frame strip and lint warnings.
 5. Looks at the preview image, lists concrete problems with coordinates, fixes the script and builds again,
    for the configured number of [iterations](#iterations).
@@ -70,13 +70,13 @@ node pixelart.js config iterations 4          # permanent, from a terminal (auto
 ```
 
 The setting applies to every kind of job: new art, image clean-up, edits and animations. It is stored in
-`ClaudePackage/pixelart.config.json`, so it is shared by every project using this installation. Details:
+`pixelart.config.json` in the Pixelod Skill folder, so it is shared by every project using this installation. Details:
 [cli.md](cli.md#config).
 
 ## Permissions
 
 Claude Code asks before running shell commands and writing files. While using the skill you will see prompts for
-`node .../pixelart.js ...` and for writing `.pixelscript` files in `ClaudePackage/output`. Choose "always allow"
+`node .../pixelart.js ...` and for writing `.pixelscript` files in the `output` folder. Choose "always allow"
 for them, or add a permission rule in your Claude Code settings, to skip the prompts.
 
 ## Customizing

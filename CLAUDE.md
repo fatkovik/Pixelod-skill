@@ -1,4 +1,4 @@
-# ClaudePackage
+# Pixelod Skill
 
 CLI pixel art toolbox plus the `/pixelart` Claude Code skill (no Playground UI). User docs: `README.md` and `docs/`.
 
@@ -18,7 +18,7 @@ node pixelart.js import <image> --grid 32 --colors 12 --preview  # photo -> edit
 node pixelart.js help ops                                       # drawing command reference
 ```
 
-Default folder for documents and exports: `ClaudePackage/output` (override with `--dir` / `--out` or `$PIXELART_DIR`).
+Default folder for documents and exports: `output/` (next to `pixelart.js`) (override with `--dir` / `--out` or `$PIXELART_DIR`).
 
 ## Architecture
 
