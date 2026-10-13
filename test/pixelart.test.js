@@ -3,7 +3,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { test } from "node:test";
-import { createDocument, flattenFrame, loadDocument, saveDocument } from "../lib/document.js";
+import { createDocument, flattenFrame, loadDocument, resolveDocumentPath, saveDocument } from "../lib/document.js";
 import { createDocument as setupEnvironment } from "../lib/environment.js";
 import { lintDocument } from "../lib/lint.js";
 import { runScript } from "../lib/ops.js";
@@ -110,6 +110,17 @@ test("save/load round trip", () => {
 
     assert.deepEqual(rows(loaded, 1), ["...", ".r."]);
     assert.equal(loaded.frames.length, 2);
+    fs.rmSync(dir, { recursive: true });
+});
+
+test("bare names resolve to a per-piece work folder, flat legacy documents still load", () => {
+
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "pixelart-"));
+
+    assert.equal(resolveDocumentPath("gem", dir), path.join(dir, "gem", "gem.pixel.json"));
+
+    saveDocument(make(2, 2), path.join(dir, "old.pixel.json"));
+    assert.equal(resolveDocumentPath("old", dir), path.join(dir, "old.pixel.json"));
     fs.rmSync(dir, { recursive: true });
 });
 

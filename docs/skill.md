@@ -14,7 +14,8 @@ node pixelart.js install-skill --global                    # every project, in ~
 The installer copies `SKILL.md` and replaces two placeholders:
 
 - `{{CLI}}` → the absolute path of `pixelart.js`
-- `{{OUTPUT}}` → the absolute path of the `output` folder
+- `{{OUTPUT}}` → the absolute path of the `output` folder (work folders)
+- `{{FINAL}}` → the absolute path of the `final-output` folder (exports)
 
 So the installed skill works from any project, as long as the Pixelod Skill folder stays where it was installed from.
 Re-run the installer after moving the folder or after changing `skill/pixelart/SKILL.md`.
@@ -41,11 +42,11 @@ Good requests say the subject, and optionally the size, palette or style, animat
 
 1. Reads the `iterations` setting (`node pixelart.js config iterations`).
 2. Decides the spec (size, palette, animation) without asking unless something is really ambiguous.
-3. Writes `output/<name>.pixelscript` in the Pixelod Skill folder.
+3. Writes `output/<name>/<name>.pixelscript` in the Pixelod Skill folder (one work folder per piece).
 4. Runs `build`, which writes the zoomed preview (grid and coordinate rulers), the frame strip and lint warnings.
 5. Looks at the preview image, lists concrete problems with coordinates, fixes the script and builds again,
    for the configured number of [iterations](#iterations).
-6. Runs `lint`, fixes real problems, then exports (`png`, and `gif`/`sheet` for animations).
+6. Runs `lint`, fixes real problems, then exports (`png`, and `gif`/`sheet` for animations) to `final-output/`.
 7. Reports what it made, how many iterations it did, and the file paths.
 
 For images it runs `import`, looks at the result and cleans it up with `draw`. For edits it checks `info`: if the
@@ -88,4 +89,4 @@ Edit `skill/pixelart/SKILL.md`, then reinstall. Useful changes:
 - Your game's art rules (outline color, light direction, palette).
 - The `description` line in the front matter controls when Claude uses the skill without `/pixelart`.
 
-Keep the `{{CLI}}` and `{{OUTPUT}}` placeholders; the installer fills them in.
+Keep the `{{CLI}}`, `{{OUTPUT}}` and `{{FINAL}}` placeholders; the installer fills them in.

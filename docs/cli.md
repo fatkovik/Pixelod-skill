@@ -13,11 +13,16 @@ Every command prints the paths of the files it wrote. Errors start with `Error:`
 **Documents** are `<name>.pixel.json` files (format: [documents.md](documents.md)). Wherever a command takes
 `<name>`, you can pass:
 
-- a bare name such as `knight`, looked up in the working folder, or
+- a bare name such as `knight`, which means `<working folder>/knight/knight.pixel.json`, or
 - a path to a `.pixel.json` file anywhere.
 
 **Working folder** for documents, in priority order: `--dir <folder>`, the `PIXELART_DIR` environment variable,
-or the `output` folder next to `pixelart.js`. Exports go next to the document unless `--out <folder>` is given.
+or the `output` folder next to `pixelart.js`. Every piece gets its own subfolder `<name>/` with the document, its
+script (by convention), the preview and the strip. Documents saved flat (`<working folder>/<name>.pixel.json`) by
+older versions are still found.
+
+**Final folder** for exports (`export`, `convert`), in priority order: `--out <folder>`, the `PIXELART_FINAL_DIR`
+environment variable, or the `final-output` folder next to `pixelart.js`. It only ever receives finished files.
 
 **Overwriting**: `new`, `import` and `convert` refuse to replace an existing document without `--force`.
 `build` replaces a document only if it was built from the same script (or with `--force`).
@@ -181,7 +186,7 @@ node pixelart.js export <name> [--format png|gif|sheet|frames|code|json] [--fram
 
 - `--tag t` limits `gif`, `sheet`, `frames` and `png` to that animation; the base name becomes `<name>-<tag>`.
 - `--cols n` sets the sprite sheet columns (default: one row).
-- `--filename` overrides the base name; `--out` the folder.
+- `--filename` overrides the base name; `--out` the folder (default: the final folder).
 
 Sheet JSON details: [animation.md](animation.md#sprite-sheets).
 
@@ -196,8 +201,8 @@ node pixelart.js convert <program.js> [--name n] [--out folder]
 node pixelart.js <image or program.js> [options]           (same as convert)
 ```
 
-- For images: writes `<name>-pixel.png`, the editable `<name>-pixel.pixel.json`, and with `--code` a DataPixels
-  program. `--size` is accepted as an old name for `--scale`.
+- For images: writes `<name>-pixel.png` (and with `--code` a DataPixels program) to the final folder, and the
+  editable `<name>-pixel.pixel.json` to its work folder `<working folder>/<name>-pixel/`. `--size` is accepted as an old name for `--scale`.
 - For `.js` files: runs a DataPixels program (like the Playground examples) and saves everything it appends to
   the page as PNG. **This executes the file as code; only use files you trust.** CSS styling is ignored.
 

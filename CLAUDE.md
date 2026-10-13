@@ -9,7 +9,7 @@ The loop is **write a `.pixelscript` -> `build` (writes preview, strip and lint)
 fix the script -> `build` ... -> `export`**. Never deliver pixel art without having looked at a render.
 
 ```
-node pixelart.js build output/<name>.pixelscript               # recreate <name>.pixel.json + previews + lint warnings
+node pixelart.js build output/<name>/<name>.pixelscript        # recreate <name>.pixel.json + previews + lint warnings
 node pixelart.js draw <name> "px 1 2 a" ... [--preview]        # small one-off edits
 node pixelart.js render <name> [--all|--tag t|--frame n --onion] --grid --rulers
 node pixelart.js lint <name>
@@ -18,7 +18,8 @@ node pixelart.js import <image> --grid 32 --colors 12 --preview  # photo -> edit
 node pixelart.js help ops                                       # drawing command reference
 ```
 
-Default folder for documents and exports: `output/` (next to `pixelart.js`) (override with `--dir` / `--out` or `$PIXELART_DIR`).
+Work folder per piece: `output/<name>/` (script, `.pixel.json`, preview, strip; override with `--dir` / `$PIXELART_DIR`).
+Finished exports only: `final-output/` (override with `--out` / `$PIXELART_FINAL_DIR`). Both next to `pixelart.js`.
 
 ## Architecture
 

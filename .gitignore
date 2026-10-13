@@ -1,9 +1,11 @@
 # Dependencies (restore with: npm install)
 node_modules/
 
-# Generated art: documents, scripts, previews and exports made with the tool.
-# The folder is recreated automatically. Shareable demos live in examples/.
+# Generated art: work folders (output/<name>/: script, document, previews) and finished exports
+# (final-output/) made with the tool.
+# The folders are recreated automatically. Shareable demos live in examples/.
 output/
+final-output/
 
 # Personal settings written by "node pixelart.js config" (e.g. iterations)
 pixelart.config.json

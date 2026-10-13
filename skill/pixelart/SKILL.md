@@ -17,8 +17,9 @@ Request: $ARGUMENTS
 node {{CLI}} <command> ...
 ```
 
-Work folder: `{{OUTPUT}}` (documents `<name>.pixel.json`, scripts, previews, exports). If the user names another
-folder, pass `--dir <folder>` (documents) / `--out <folder>` (exports). `node {{CLI}} help ops` is the full drawing
+Work folder: `{{OUTPUT}}/<name>/`, one per piece: script `<name>.pixelscript`, document `<name>.pixel.json`,
+`<name>.preview.png`, `<name>.strip.png`. Final folder: `{{FINAL}}`, where `export` (and `convert`) put the finished
+product and nothing else. If the user names other folders, pass `--dir <folder>` (work) / `--out <folder>` (exports). `node {{CLI}} help ops` is the full drawing
 reference: read it once per session before writing a script.
 
 ## Settings: how many iterations
@@ -39,7 +40,7 @@ The iteration count applies to every workflow below: drawing, image clean-up, ed
 
 1. **Spec** - decide, don't interrogate: subject, size, style, animation. Defaults: 32x32 characters, 16x16
    items/icons, 48-64 detailed scenes. Smaller reads better.
-2. **Write a script** `{{OUTPUT}}/<name>.pixelscript` with the Write tool. The script is the source of truth:
+2. **Write a script** `{{OUTPUT}}/<name>/<name>.pixelscript` with the Write tool. The script is the source of truth:
    ```
    canvas 32 32                       # size first
    palette add k #1b1030              # outline: very dark, tinted
@@ -51,8 +52,8 @@ The iteration count applies to every workflow below: drawing, image clean-up, ed
    mirror left                        # symmetric base, then break symmetry
    replace c b 18 0 14 32             # shade the side away from the light (region replace)
    ```
-3. **Build**: `node {{CLI}} build {{OUTPUT}}/<name>.pixelscript`
-   It recreates the document from scratch and writes `<name>.preview.png` (zoomed, grid, coordinate rulers),
+3. **Build**: `node {{CLI}} build {{OUTPUT}}/<name>/<name>.pixelscript`
+   It recreates the document from scratch in `{{OUTPUT}}/<name>/` and writes `<name>.preview.png` (zoomed, grid, coordinate rulers),
    `<name>.strip.png` when there are several frames, and prints lint warnings - all in one call.
 4. **Look**: open the preview (and strip) with the Read tool. Check the 1x read too: `render <name> --scale 4`.
 5. **Critique concretely**: list 3-5 specific problems with coordinates ("plume at y1-3 reads as a headband",
@@ -96,7 +97,7 @@ operations: `flip`, `rotate`, `crop`, `canvas`, `scale`, `recolor`, `palette rem
 
 ## Export
 
-`export <name>` writes a ~512 px PNG of frame 0 (`--scale n` for exact size, `--scale 1` for native pixels).
+`export <name>` writes a ~512 px PNG of frame 0 to `{{FINAL}}` (`--scale n` for exact size, `--scale 1` for native pixels).
 Other formats: `--format gif|sheet|frames|code|json`, `--out <folder>`, `--filename <base>`, `--tag <name>`.
 
 ## Pixel art rules that matter

@@ -42,7 +42,7 @@ node pixelart.js help
 node pixelart.js build examples/knight.pixelscript
 ```
 
-The second command writes `output/knight.pixel.json`, `output/knight.preview.png` and `output/knight.strip.png`.
+The second command writes `knight.pixel.json`, `knight.preview.png` and `knight.strip.png` into `output/knight/`.
 
 ### Install the `/pixelart` skill
 
@@ -112,7 +112,7 @@ All commands are `node pixelart.js <command> ...`, run from the Pixelod Skill fo
 
 ### Draw something
 
-Write a script, for example `output/gem.pixelscript`:
+Write a script, for example `output/gem/gem.pixelscript`:
 
 ```
 canvas 16 16
@@ -127,8 +127,8 @@ outline k
 Build it, look at the preview, export:
 
 ```
-node pixelart.js build output/gem.pixelscript      # -> gem.pixel.json, gem.preview.png, lint warnings
-node pixelart.js export gem --scale 16              # -> output/gem.png (256x256)
+node pixelart.js build output/gem/gem.pixelscript  # -> output/gem/: gem.pixel.json, gem.preview.png; lint warnings
+node pixelart.js export gem --scale 16              # -> final-output/gem.png (256x256)
 ```
 
 Edit the script and run `build` again until it looks right.
@@ -146,9 +146,9 @@ Or in one step, without touching it up: `node pixelart.js convert photo.jpg --gr
 ### Animate
 
 ```
-node pixelart.js build examples/slime.pixelscript              # 4-frame bounce, writes slime.strip.png
+node pixelart.js build examples/slime.pixelscript              # 4-frame bounce, writes output/slime/slime.strip.png
 node pixelart.js render slime --frame 2 --onion                # frame 2 over a ghost of frame 1
-node pixelart.js export slime --format gif                     # output/slime.gif
+node pixelart.js export slime --format gif                     # final-output/slime.gif
 node pixelart.js export slime --format sheet --scale 4         # slime.sheet.png + slime.sheet.json
 ```
 
@@ -170,8 +170,10 @@ node pixelart.js export slime --format sheet --scale 4         # slime.sheet.png
 | `install-skill` | Install the `/pixelart` skill |
 | `help [ops\|<command>]` | Command help; `help ops` lists every drawing command |
 
-Documents are stored as `<name>.pixel.json` in the `output` folder. Use `--dir <folder>` or the
-`PIXELART_DIR` environment variable to keep them elsewhere, and `--out <folder>` to export somewhere else.
+Each piece gets a work folder `output/<name>/` holding everything you iterate on: the script, the document
+`<name>.pixel.json`, the preview and the strip. Finished exports (`export`, `convert`) go to `final-output/`, which
+contains only ready products. Use `--dir <folder>` or `PIXELART_DIR` to keep work folders elsewhere, and
+`--out <folder>` or `PIXELART_FINAL_DIR` to export somewhere else.
 
 ---
 
@@ -196,7 +198,8 @@ skill/pixelart/        source of the /pixelart skill (installed copies are gener
 examples/              knight.pixelscript, slime.pixelscript
 docs/                  documentation
 test/                  node:test suite
-output/                default folder for documents, previews and exports (git-ignored)
+output/<name>/         work folder per piece: script, document, preview, strip (git-ignored)
+final-output/          finished exports only: png, gif, sheet, frames, code (git-ignored)
 pixelart.config.json   your settings, created by `config` only when you change something (git-ignored)
 ```
 

@@ -16,7 +16,7 @@ are easy to inspect, diff and even edit by hand.
   "tags": [
     { "name": "shine", "from": 0, "to": 1 }
   ],
-  "source": "D:\\Projects\\pixelod-skill\\output\\gem.pixelscript",
+  "source": "D:\\Projects\\pixelod-skill\\output\\gem\\gem.pixelscript",
   "frames": [
     {
       "duration": 100,

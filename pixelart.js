@@ -23,6 +23,7 @@ import { installSkill } from "./lib/skill.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_DIR = process.env.PIXELART_DIR ? path.resolve(process.env.PIXELART_DIR) : path.join(HERE, "output");
+const FINAL_DIR = process.env.PIXELART_FINAL_DIR ? path.resolve(process.env.PIXELART_FINAL_DIR) : path.join(HERE, "final-output");
 
 const USAGE = `Pixelod Skill - pixel art toolbox
 
@@ -41,7 +42,7 @@ LOOK
   info <name>             size, frames, tags, palette legend, bounding box
 EXPORT
   export <name>           --format png|gif|sheet|frames|code|json   --frame n --tag t --scale n --cols n --filename base --out dir
-  convert <file>          one shot: image -> pixel art PNG (or render a DataPixels .js)   --grid --colors --scale --code --force ...
+  convert <file>          one shot: image -> pixel art PNG (or render a DataPixels .js)   --grid --colors --scale --code --force --out dir ...
 TOOLS
   palettes [name]         list preset palettes or show one
   ramp <#hex> [steps]     shading ramp (dark -> light) for a base color
@@ -49,7 +50,9 @@ TOOLS
   install-skill           install the /pixelart skill   --dest <project dir> | --global
   help [ops|<command>]    this text, the draw/edit command reference, or one command
 
-Documents live in --dir (default: ${DEFAULT_DIR}, or $PIXELART_DIR) as <name>${EXTENSION}.
+Work files live in --dir (default: ${DEFAULT_DIR}, or $PIXELART_DIR), one folder per piece:
+<name>/<name>${EXTENSION} next to its script, preview and strip.  Exports (export, convert) go to --out
+(default: ${FINAL_DIR}, or $PIXELART_FINAL_DIR): only finished products.
 A <name> may also be a path to a ${EXTENSION} file.  Every command prints the files it wrote.
 `;
 
@@ -416,7 +419,7 @@ const commands = {
 
         const file = docPath(o, o._[0]);
         const doc = loadDocument(file);
-        const outDir = path.resolve(o.out || path.dirname(file));
+        const outDir = path.resolve(o.out || FINAL_DIR);
         const format = (o.format || "png").toLowerCase();
         const base = o.filename || (o.tag ? `${doc.name}-${o.tag}` : doc.name);
         const written = [];
@@ -499,7 +502,7 @@ const commands = {
         if (!input) throw new UsageError("Missing input file.");
         if (!fs.existsSync(input)) throw new UsageError(`File not found: ${path.resolve(input)}`);
 
-        const outDir = path.resolve(o.out || DEFAULT_DIR);
+        const outDir = path.resolve(o.out || FINAL_DIR);
         const base = o.name || `${path.parse(input).name}-pixel`;
         const scale = intOption(o.scale ?? o.size, "scale");          // --size is the old name of --scale
 
@@ -520,7 +523,7 @@ const commands = {
             return;
         }
 
-        const docFile = path.join(outDir, `${base}${EXTENSION}`);
+        const docFile = docPath(o, base);
 
         if (fs.existsSync(docFile) && !o.force) throw new UsageError(`${docFile} already exists (use --force to overwrite, or --name).`);
 
