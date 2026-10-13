@@ -1,0 +1,95 @@
+# 32x32 knight, red cape, 4-frame idle.   (steel abcd, cape efgh, skin ijl, gold mno)
+#   node pixelart.js build examples/knight.pixelscript
+palette add k #1b1030
+palette ramp #8896b3 abcd     # steel, a darkest .. d lightest
+palette ramp #c0392b efgh     # cape / plume
+palette ramp #e8b796 ijl      # skin
+palette ramp #d9a521 mno      # gold
+palette add p #2f1d14         # boots
+palette add q #5c3a24
+palette add w #ffffff
+
+# ---- cape (bottom layer "main"): wider than the shoulders so it reads ------------
+layer main
+poly f 10 15 5 29 15 29 15 15
+mirror left
+line 11 16 8 28 e
+line 13 21 12 28 e
+line 20 16 23 28 e
+line 18 21 19 28 e
+replace f g 0 0 16 32         # left half lit, right half in shade
+replace f e 13 24 6 6         # dark behind the legs so it does not read as red legs
+replace g e 13 24 6 6
+outline k
+
+# ---- upper body: narrow plume crest, helmet, torso (left half, then mirror) -----
+layer upper
+put 8 0
+......kk
+.....kfg
+....kffg
+....keeg
+...kkkkk
+..kcddcc
+..kcddcc
+..kbcccc
+..kbkkkk
+..kbkwkk
+..kbccbb
+..kbbcbb
+...kbbbb
+...kkaaa
+.kkcddbb
+kccdddcb
+kcbabbcc
+kbbacccc
+kbbaccco
+kbbacccn
+kkbabbbb
+kmnnnnnn
+kkbbbbbb
+end
+# hands (skin) hanging below the arms, with outline
+rect 8 22 2 2 j
+px 7 22 k
+px 7 23 k
+px 8 24 k
+px 9 24 k
+px 10 22 k
+mirror left
+# light from the top-left: the outer right third one step darker
+replace b a 18 0 14 32
+replace c b 18 0 14 32
+replace d c 18 0 14 32
+
+# ---- legs and boots ---------------------------------------------------------------
+layer legs
+put 8 23
+..kkcccc
+..kbbccc
+..kbbck.
+..kbbck.
+..kbbck.
+.kpqqpk.
+.kppppk.
+.kkkkkk.
+end
+mirror left
+replace b a 18 0 14 32
+replace c b 18 0 14 32
+
+# ---- animation: breathing idle + cape sway -------------------------------------
+frames 4 copy
+frame 1
+layer upper
+shift 0 1
+frame 2
+layer upper
+shift 0 1
+layer main
+shift 1 0
+frame 3
+layer main
+shift -1 0
+frame dur all 200
+tag idle 0 3

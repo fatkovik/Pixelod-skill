@@ -1,0 +1,29 @@
+# Dependencies (restore with: npm install)
+node_modules/
+
+# Generated art: documents, scripts, previews and exports made with the tool.
+# The folder is recreated automatically. Shareable demos live in examples/.
+output/
+
+# Personal settings written by "node pixelart.js config" (e.g. iterations)
+pixelart.config.json
+
+# Logs and npm debris
+*.log
+npm-debug.log*
+.npm/
+
+# Test / temporary files
+*.tmp
+coverage/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Operating system files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini

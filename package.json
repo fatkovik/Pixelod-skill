@@ -1,0 +1,21 @@
+{
+    "name": "claude-pixelart",
+    "version": "1.0.0",
+    "description": "Command line pixel art toolbox (draw, edit, animate, import, export) built on DataPixels.js, with a Claude Code /pixelart skill",
+    "private": true,
+    "type": "module",
+    "bin": {
+        "pixelart": "./pixelart.js"
+    },
+    "scripts": {
+        "pixelart": "node pixelart.js",
+        "test": "node --test test/pixelart.test.js"
+    },
+    "engines": {
+        "node": ">=20"
+    },
+    "dependencies": {
+        "@napi-rs/canvas": "^0.1.80",
+        "gifenc": "^1.0.3"
+    }
+}
